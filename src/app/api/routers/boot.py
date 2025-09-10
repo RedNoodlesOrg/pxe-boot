@@ -10,24 +10,11 @@ router = APIRouter(tags=["boot"])
 
 @router.get("/ignition")
 async def get_ignition(
-    profile_id: int | None = Query(default=None),
-    profile: str | None = Query(default=None, deprecated=True),
+    profile_id: int | None = Query(default=None)
 ):
-    if profile_id is None and profile is not None:
-        return Response(
-            content=_read_ign_by_name(profile),
-            media_type="application/json",
-        )
     if profile_id is None:
         raise HTTPException(400, "Provide profile_id")
     return Response(content=read_profile_ignition(profile_id), media_type="application/json")
-
-def _read_ign_by_name(name: str) -> str:
-    from app.repositories.profile_fs import _iter_profiles, read_profile_ignition
-    candidates = [pid for (pid, n, _) in _iter_profiles() if n == name]
-    if not candidates:
-        raise HTTPException(404, "Profile not found")
-    return read_profile_ignition(max(candidates))
 
 @router.get("/ignition/{host_id:int}")
 async def get_ignition_by_host(host_id: int, session: AsyncSession = Depends(get_session)):

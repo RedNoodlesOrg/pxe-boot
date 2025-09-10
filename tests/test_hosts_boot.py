@@ -1,0 +1,55 @@
+# tests/test_hosts_boot.py
+import json
+import pytest
+from fastapi.testclient import TestClient
+
+
+def have_butane():
+    import shutil
+
+    return shutil.which("butane") is not None
+
+
+@pytest.mark.asyncio
+async def test_hosts_and_boot_endpoints(app_instance):
+    with TestClient(app_instance) as client:
+
+        r = client.post("/profile", json={"name": "node"})
+        prof_id = r.json()["id"]
+        bu = "variant: fcos\nversion: 1.5.0\n"
+        client.post(
+            f"/profile/{prof_id}/upload", files={"file": ("node.bu", bu, "text/yaml")}
+        )
+
+        r = client.post(
+            "/host",
+            json={
+                "hostname": "core01",
+                "ip": "10.0.0.10",
+                "mac": "52:54:00:aa:bb:01",
+                "profile_id": prof_id,
+            },
+        )
+        assert r.status_code == 201, r.text
+        host = r.json()
+        hid = host["id"]
+
+        r = client.get(f"/ignition", params={"profile_id": prof_id})
+        if have_butane():
+            assert r.status_code == 200
+            j = json.loads(r.text)
+            assert "ignition" in j
+        else:
+            assert r.status_code in (400, 500)
+
+        r = client.get(f"/ignition/{hid}")
+        if have_butane():
+            assert r.status_code == 200
+            j = json.loads(r.text)
+            assert "ignition" in j
+        else:
+            assert r.status_code in (400, 500)
+
+        r = client.get(f"/ipxe", params={"host_id": hid})
+        assert r.status_code == 200
+        assert "ignition.config.url=" in r.text

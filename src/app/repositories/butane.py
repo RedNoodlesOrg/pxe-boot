@@ -14,7 +14,7 @@ def transpile_butane_to_ignition(yaml_text: str) -> str:
         raise ButaneError("`butane` binary not found in PATH")
 
     proc = subprocess.run(
-        ["butane", "--strict", "--pretty", "-o", "-"],
+        ["butane", "--strict", "--pretty"],
         input=yaml_text.encode("utf-8"),
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,

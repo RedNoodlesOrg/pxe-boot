@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 
 class HostCreate(BaseModel):
     hostname: str = Field(min_length=1, max_length=255)
@@ -19,5 +19,4 @@ class HostOut(BaseModel):
     mac: str
     profile_id: int
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
