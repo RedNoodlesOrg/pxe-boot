@@ -31,12 +31,12 @@ def _bind_settings(temp_env):
     from app.core import config as cfg
     from app.core import db as dbmod
 
-    cfg.settings.profiles_dir = temp_env["profiles"]
-    cfg.settings.artifacts_dir = temp_env["artifacts"]
-    cfg.settings.database_url = f"sqlite+aiosqlite:///{temp_env['db']}"
+    cfg.settings.PROFILES = temp_env["profiles"]
+    cfg.settings.ARTIFACTS = temp_env["artifacts"]
+    cfg.settings.DB_URL = f"sqlite+aiosqlite:///{temp_env['db']}"
 
     dbmod.engine = create_async_engine(
-        cfg.settings.database_url, echo=False, future=True
+        cfg.settings.DB_URL, echo=False, future=True
     )
     dbmod.SessionLocal = async_sessionmaker(
         dbmod.engine, class_=AsyncSession, expire_on_commit=False

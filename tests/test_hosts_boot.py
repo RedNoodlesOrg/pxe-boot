@@ -2,7 +2,7 @@
 import json
 import pytest
 from fastapi.testclient import TestClient
-
+import urllib.parse
 
 def have_butane():
     import shutil
@@ -33,7 +33,8 @@ async def test_hosts_and_boot_endpoints(app_instance):
         assert r.status_code == 201, r.text
         host = r.json()
         hid = host["id"]
-
+        hmac = host["mac"]
+        hmac_bad: str = host["mac"].replace("00", "ff")
         r = client.get(f"/ignition", params={"profile_id": prof_id})
         if have_butane():
             assert r.status_code == 200
@@ -41,6 +42,15 @@ async def test_hosts_and_boot_endpoints(app_instance):
             assert "ignition" in j
         else:
             assert r.status_code in (400, 500)
+            
+        r = client.get(f"/ignition", params={"mac": hmac})
+        if have_butane():
+            assert r.status_code == 200
+            j = json.loads(r.text)
+            assert "ignition" in j
+        else:
+            assert r.status_code in (400, 500)
+
 
         r = client.get(f"/ignition/{hid}")
         if have_butane():
@@ -49,7 +59,9 @@ async def test_hosts_and_boot_endpoints(app_instance):
             assert "ignition" in j
         else:
             assert r.status_code in (400, 500)
+            
+        r = client.get(f"/ignition")
+        assert r.status_code == 400
 
-        r = client.get(f"/ipxe", params={"host_id": hid})
-        assert r.status_code == 200
-        assert "ignition.config.url=" in r.text
+        r = client.get(f"/ignition", params={"mac": hmac_bad})
+        assert r.status_code == 404

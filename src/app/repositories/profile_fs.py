@@ -12,7 +12,7 @@ PROFILE_RE = re.compile(r"^(?P<id>\d+)\+(?P<name>[^/]+)\.bu$")
 
 def _iter_profiles() -> list[Tuple[int, str, Path]]:
     items: list[Tuple[int, str, Path]] = []
-    for p in settings.profiles_dir.glob("*.bu"):
+    for p in settings.PROFILES.glob("*.bu"):
         m = PROFILE_RE.match(p.name)
         if not m:
             continue
@@ -22,10 +22,10 @@ def _iter_profiles() -> list[Tuple[int, str, Path]]:
     return sorted(items, key=lambda x: x[0])
 
 def _bu_path(pid: int, name: str) -> Path:
-    return (settings.profiles_dir / f"{pid}+{name}.bu").resolve()
+    return (settings.PROFILES / f"{pid}+{name}.bu").resolve()
 
 def _ign_path(pid: int, name: str) -> Path:
-    return (settings.artifacts_dir / f"{pid}+{name}.ign").resolve()
+    return (settings.ARTIFACTS / f"{pid}+{name}.ign").resolve()
 
 def _next_profile_id() -> int:
     items = _iter_profiles()
