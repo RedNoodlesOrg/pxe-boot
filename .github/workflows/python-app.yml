@@ -37,6 +37,10 @@ jobs:
         python -m pip install --upgrade pip
         pip install pytest pytest_asyncio
         if [ -f src/requirements.txt ]; then pip install -r src/requirements.txt; fi
+        wget https://github.com/coreos/butane/releases/download/v0.25.0/butane-x86_64-unknown-linux-gnu
+        https://github.com/coreos/butane/releases/download/v0.25.0/butane-x86_64-unknown-linux-gnu.asc
+        gpg --verify butane-x86_64-unknown-linux-gnu.asc butane-x86_64-unknown-linux-gnu
+        mv butane-x86_64-unknown-linux-gnu ~/.local/bin/butane
     - name: Test with pytest
       run: |
         pytest
