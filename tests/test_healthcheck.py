@@ -8,4 +8,3 @@ async def test_healthcheck_ok(app_instance):
         r = client.get("/healthcheck")
         assert r.status_code == 200, r.text
         assert r.json() == {"status": "OK"}
-

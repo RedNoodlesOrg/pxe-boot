@@ -2,7 +2,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
-from .api.routers import boot, host, profile, healthcheck
+from .api.routers import boot, healthcheck, host, profile
 from .core.db import engine, init_db
 
 
