@@ -35,27 +35,27 @@ async def test_hosts_and_boot_endpoints(app_instance):
         hid = host["id"]
         hmac = host["mac"]
         hmac_bad: str = host["mac"].replace("00", "ff")
-        r = client.get(f"/ignition", params={"profile_id": prof_id})
+        r = client.get(f"/boot/ignition", params={"profile_id": prof_id})
         if have_butane():
             assert r.status_code == 200
             j = json.loads(r.text)
             assert "ignition" in j
             
-        r = client.get(f"/ignition", params={"mac": hmac})
+        r = client.get(f"/boot/ignition", params={"mac": hmac})
         if have_butane():
             assert r.status_code == 200
             j = json.loads(r.text)
             assert "ignition" in j
 
 
-        r = client.get(f"/ignition/{hid}")
+        r = client.get(f"/boot/ignition/{hid}")
         if have_butane():
             assert r.status_code == 200
             j = json.loads(r.text)
             assert "ignition" in j
             
-        r = client.get(f"/ignition")
+        r = client.get(f"/boot/ignition")
         assert r.status_code == 400
 
-        r = client.get(f"/ignition", params={"mac": hmac_bad})
+        r = client.get(f"/boot/ignition", params={"mac": hmac_bad})
         assert r.status_code == 404
