@@ -9,7 +9,7 @@ dependencies = [
 "fastapi-cli",
 "pydantic",
 "pydantic_settings",
-"SQLAlchemy",
+"sqlalchemy",
 "aiosqlite",
 "httpx",
 "python-multipart"
