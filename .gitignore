@@ -88,3 +88,4 @@ cython_debug/
 artifacts/
 profiles/
 *.db
+.vscode/

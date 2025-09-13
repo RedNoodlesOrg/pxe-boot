@@ -27,7 +27,7 @@ RUN pip install --no-cache-dir --upgrade \
     --root-user-action ignore && \
     rm /tmp/requirements.txt
 
-COPY ./app /app
+COPY ./src/app /app
 
 # Non-root user
 RUN useradd -r -u 10001 -g users appuser \

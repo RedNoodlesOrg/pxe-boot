@@ -1,24 +1,24 @@
 # ==== Config (override via env or make VAR=...) ====
-REGISTRY ?= registry.rednet.lan
-IMAGE    ?= $(REGISTRY)/pxe-api
-VERSION  ?= 1.0.0
-TAGS     ?= dev
-FORMAT   ?= docker
-DOCKERFILE ?= Containerfile
-CONTEXT    ?= src
+REGISTRY 	?= registry.rednet.lan
+IMAGE    	?= $(REGISTRY)/pxe-api
+VERSION  	?= 1.0.0
+TAGS     	?= dev
+FORMAT   	?= docker
+DOCKERFILE 	?= Dockerfile
+CONTEXT    	?= .
 
 # Build metadata
-VCS_REF    := $(shell git rev-parse --short HEAD 2>/dev/null || echo unknown)
-BUILD_DATE := $(shell date -u +%Y-%m-%dT%H:%M:%SZ)
+VCS_REF    	:= $(shell git rev-parse --short HEAD 2>/dev/null || echo unknown)
+BUILD_DATE 	:= $(shell date -u +%Y-%m-%dT%H:%M:%SZ)
 
 # Derived
-ALL_TAGS   := $(VERSION) $(TAGS)
-TAG_ARGS   := $(foreach t,$(ALL_TAGS),-t $(IMAGE):$(t))
+ALL_TAGS   	:= $(VERSION) $(TAGS)
+TAG_ARGS   	:= $(foreach t,$(ALL_TAGS),-t $(IMAGE):$(t))
 
 # ==== Requirements ====
-REQS_IN        ?= pyproject.toml
-REQS_OUT       ?= src/requirements.txt
-REQS_ARGS	   ?= --generate-hashes --no-annotate --strip-extras
+REQS_IN		?= pyproject.toml
+REQS_OUT	?= requirements.txt
+REQS_ARGS	?= --generate-hashes --no-annotate --strip-extras
 # ==== Phony targets ====
 .PHONY: help build rebuild clean requirements
 
