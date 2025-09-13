@@ -16,9 +16,9 @@ ALL_TAGS   := $(VERSION) $(TAGS)
 TAG_ARGS   := $(foreach t,$(ALL_TAGS),-t $(IMAGE):$(t))
 
 # ==== Requirements ====
-REQS_IN        ?= requirements.in
+REQS_IN        ?= pyproject.toml
 REQS_OUT       ?= src/requirements.txt
-
+REQS_ARGS	   ?= --generate-hashes --no-annotate --strip-extras
 # ==== Phony targets ====
 .PHONY: help build rebuild clean requirements
 
@@ -34,11 +34,11 @@ help:
 
 $(REQS_OUT): $(REQS_IN)
 	@echo ">> Compiling $(REQS_IN) -> $(REQS_OUT)"
-	pip-compile --generate-hashes --output-file $(REQS_OUT) $(REQS_IN)
+	pip-compile $(REQS_ARGS) --output-file $(REQS_OUT) $(REQS_IN)
 
 upgrade: $(REQS_IN)
 	@echo ">> Upgrading $(REQS_OUT)"
-	pip-compile --upgrade --generate-hashes --output-file $(REQS_OUT) $(REQS_IN)
+	pip-compile --upgrade $(REQS_ARGS) --output-file $(REQS_OUT) $(REQS_IN)
 
 requirements: $(REQS_OUT)
 

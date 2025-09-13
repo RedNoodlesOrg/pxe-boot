@@ -1,8 +1,0 @@
-fastapi
-fastapi-cli
-pydantic
-pydantic_settings
-SQLAlchemy
-aiosqlite
-httpx
-python-multipart

@@ -1,0 +1,37 @@
+[project]
+name = "pxe-boot"
+version = "0.1.0"
+description = "PXE Ignition Service (FastAPI) — profiles, hosts, boot endpoints"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+"fastapi",
+"fastapi-cli",
+"pydantic",
+"pydantic_settings",
+"SQLAlchemy",
+"aiosqlite",
+"httpx",
+"python-multipart"
+]
+
+[dependency-groups]
+dev = [
+  "pytest",
+  "black",
+  "pytest_asyncio",
+  "pip-tools"
+]
+
+[project.urls]
+Repository = "https://github.com/RedNoodlesOrg/pxe-boot"
+
+[tool.black]
+line-length = 88
+target-version = ["py313"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+addopts = "--maxfail=5 --durations=10 --cov-fail-under=80 --cov=src/app/ --cov-branch"
