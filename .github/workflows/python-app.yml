@@ -42,8 +42,6 @@ jobs:
         mkdir -p $HOME/.local/bin
         echo "$HOME/.local/bin" >> $GITHUB_PATH
         wget https://github.com/coreos/butane/releases/download/v0.25.0/butane-x86_64-unknown-linux-gnu
-        wget https://github.com/coreos/butane/releases/download/v0.25.0/butane-x86_64-unknown-linux-gnu.asc
-        gpg --verify butane-x86_64-unknown-linux-gnu.asc butane-x86_64-unknown-linux-gnu
         mv butane-x86_64-unknown-linux-gnu $HOME/.local/bin/butane
     - name: Test with pytest
       run: |
