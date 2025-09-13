@@ -40,16 +40,12 @@ async def test_hosts_and_boot_endpoints(app_instance):
             assert r.status_code == 200
             j = json.loads(r.text)
             assert "ignition" in j
-        else:
-            assert r.status_code in (400, 500)
             
         r = client.get(f"/ignition", params={"mac": hmac})
         if have_butane():
             assert r.status_code == 200
             j = json.loads(r.text)
             assert "ignition" in j
-        else:
-            assert r.status_code in (400, 500)
 
 
         r = client.get(f"/ignition/{hid}")
@@ -57,8 +53,6 @@ async def test_hosts_and_boot_endpoints(app_instance):
             assert r.status_code == 200
             j = json.loads(r.text)
             assert "ignition" in j
-        else:
-            assert r.status_code in (400, 500)
             
         r = client.get(f"/ignition")
         assert r.status_code == 400

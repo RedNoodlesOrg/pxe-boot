@@ -1,14 +1,18 @@
 from __future__ import annotations
+
+import json
+import re
 from pathlib import Path
 from typing import List, Tuple
-from fastapi import HTTPException, status
-from app.core.config import settings
-from app.schemas.profile import ProfileOut
-from .butane import transpile_butane_to_ignition, ButaneError
-import re
-import json
+
+from fastapi import HTTPException
+
+from ..core.config import settings
+from ..schemas.profile import ProfileOut
+from .butane import ButaneError, transpile_butane_to_ignition
 
 PROFILE_RE = re.compile(r"^(?P<id>\d+)\+(?P<name>[^/]+)\.bu$")
+
 
 def _iter_profiles() -> list[Tuple[int, str, Path]]:
     items: list[Tuple[int, str, Path]] = []
@@ -21,15 +25,19 @@ def _iter_profiles() -> list[Tuple[int, str, Path]]:
         items.append((pid, name, p.resolve()))
     return sorted(items, key=lambda x: x[0])
 
+
 def _bu_path(pid: int, name: str) -> Path:
     return (settings.PROFILES / f"{pid}+{name}.bu").resolve()
+
 
 def _ign_path(pid: int, name: str) -> Path:
     return (settings.ARTIFACTS / f"{pid}+{name}.ign").resolve()
 
+
 def _next_profile_id() -> int:
     items = _iter_profiles()
     return (items[-1][0] + 1) if items else 1
+
 
 def list_profiles() -> List[ProfileOut]:
     out: list[ProfileOut] = []
@@ -45,6 +53,7 @@ def list_profiles() -> List[ProfileOut]:
         )
     return out
 
+
 def get_profile(pid: int) -> ProfileOut:
     items = {p[0]: p for p in _iter_profiles()}
     if pid not in items:
@@ -58,12 +67,14 @@ def get_profile(pid: int) -> ProfileOut:
         ign_path=str(ign) if ign.exists() else None,
     )
 
+
 def read_profile_butane(pid: int) -> str:
     items = {p[0]: p for p in _iter_profiles()}
     if pid not in items:
         raise HTTPException(404, "Profile not found")
     _, _, bu = items[pid]
     return bu.read_text(encoding="utf-8")
+
 
 def ensure_ignition_fresh(pid: int) -> Path:
     items = {p[0]: p for p in _iter_profiles()}
@@ -82,9 +93,11 @@ def ensure_ignition_fresh(pid: int) -> Path:
         ign.write_text(json_text, encoding="utf-8")
     return ign
 
+
 def read_profile_ignition(pid: int) -> str:
     ign = ensure_ignition_fresh(pid)
     return ign.read_text(encoding="utf-8")
+
 
 def create_profile(name: str) -> ProfileOut:
     if "+" in name:
@@ -97,6 +110,7 @@ def create_profile(name: str) -> ProfileOut:
     bu.write_text("# Butane YAML goes here\n", encoding="utf-8")
     return ProfileOut(id=pid, name=name, bu_path=str(bu), ign_path=None)
 
+
 def upsert_butane(pid: int, yaml_text: str) -> ProfileOut:
     items = {p[0]: p for p in _iter_profiles()}
     if pid not in items:
@@ -106,6 +120,7 @@ def upsert_butane(pid: int, yaml_text: str) -> ProfileOut:
     ensure_ignition_fresh(pid)
     ign = _ign_path(pid, name)
     return ProfileOut(id=pid, name=name, bu_path=str(bu), ign_path=str(ign))
+
 
 def rename_profile(pid: int, new_name: str) -> ProfileOut:
     if "+" in new_name:
@@ -121,7 +136,15 @@ def rename_profile(pid: int, new_name: str) -> ProfileOut:
     ign_old = _ign_path(pid, old_name)
     if ign_old.exists():
         ign_old.replace(_ign_path(pid, new_name))
-    return ProfileOut(id=pid, name=new_name, bu_path=str(bu_new), ign_path=str(_ign_path(pid, new_name)) if _ign_path(pid, new_name).exists() else None)
+    return ProfileOut(
+        id=pid,
+        name=new_name,
+        bu_path=str(bu_new),
+        ign_path=(
+            str(_ign_path(pid, new_name)) if _ign_path(pid, new_name).exists() else None
+        ),
+    )
+
 
 def delete_profile(pid: int) -> None:
     items = {p[0]: p for p in _iter_profiles()}

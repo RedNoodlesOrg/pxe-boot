@@ -1,6 +1,8 @@
+from sqlalchemy import Integer, String, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column
-from sqlalchemy import String, Integer, UniqueConstraint
-from app.core.db import Base
+
+from ..core.db import Base
+
 
 class HostORM(Base):
     __tablename__ = "hosts"

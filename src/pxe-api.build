@@ -1,0 +1,31 @@
+[Unit]
+Description=Build PXE API image
+
+[Build]
+# Resulting image name(s)
+Image=registry.rednet.lan/pxe-api:1.0.0
+Tags=registry.rednet.lan/pxe-api:latest
+
+# Build context + file
+ContextDir=/srv/pxe-api
+Dockerfile=Containerfile
+
+# Choose image manifest type (docker|oci)
+Format=docker
+
+# Optional build args (expand from environment below)
+BuildArg=VCS_REF=$VCS_REF
+BuildArg=BUILD_DATE=$BUILD_DATE
+
+# Optional knobs:
+# NoCache=false
+# Layers=true
+Target=prod
+# Pull=newer
+# BuildArgFile=/srv/pxe-api/build.args
+
+[Service]
+# Provide values for $VCS_REF and $BUILD_DATE
+Environment=VCS_REF=%n
+Environment=BUILD_DATE=%E
+# Or: EnvironmentFile=/srv/pxe-api/build.env

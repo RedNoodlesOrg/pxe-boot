@@ -2,8 +2,10 @@ import json
 import shutil
 import subprocess
 
+
 class ButaneError(RuntimeError):
     pass
+
 
 def transpile_butane_to_ignition(yaml_text: str) -> str:
     """

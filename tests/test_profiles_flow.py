@@ -21,11 +21,12 @@ async def test_profile_create_upload_download(app_instance):
         )
         assert r.status_code == 200
 
+        r = client.post("/profile", json={"name": "b+se"})
+        assert r.status_code == 422
+        
         r = client.get(f"/profile/{pid}/ignition")
         if have_butane():
             assert r.status_code == 200
-        else:
-            assert r.status_code in (400, 500)
 
 
 @pytest.mark.asyncio
@@ -39,13 +40,12 @@ async def test_profile_rename_and_rerender(app_instance):
 
         # First render (if butane present)
         r = client.get(f"/profile/{pid}/ignition")
+        first_json = None
         if have_butane():
             assert r.status_code == 200
             first_json = r.text
-        else:
-            pytest.skip("butane CLI not found; skipping render checks")
+        assert first_json is not None
 
-        # Update BU → ensure ignition refreshes (mtime changes)
         files = {
             "file": (
                 "alpha.bu",

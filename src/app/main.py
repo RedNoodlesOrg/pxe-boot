@@ -1,14 +1,17 @@
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
-from contextlib import asynccontextmanager
-from .core.db import init_db, engine
-from .api.routers import host, profile, boot
+
+from .api.routers import boot, host, profile
+from .core.db import engine, init_db
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await init_db()
     yield
     await engine.dispose()
+
 
 app = FastAPI(
     title="PXE Ignition Service",
