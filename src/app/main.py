@@ -2,7 +2,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
-from .api.routers import boot, host, profile
+from .api.routers import boot, host, profile, healthcheck
 from .core.db import engine, init_db
 
 
@@ -15,7 +15,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title="PXE Ignition Service",
-    version="1.0.0",
+    version="0.1.0",
     lifespan=lifespan,
 )
 
@@ -23,3 +23,4 @@ app = FastAPI(
 app.include_router(profile)
 app.include_router(host)
 app.include_router(boot)
+app.include_router(healthcheck)
