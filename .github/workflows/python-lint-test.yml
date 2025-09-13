@@ -46,4 +46,6 @@ jobs:
         chmod +x $HOME/.local/bin/butane
     - name: Test with pytest
       run: |
-        pytest
+        pytest -v --maxfail=5 --disable-warnings --durations=10 --cov=src/app --cov-report=term-missing --cov-fail-under=80
+
+
