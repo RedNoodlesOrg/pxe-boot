@@ -9,5 +9,19 @@
     "python.testing.pytestArgs": ["-q"],
     "python.testing.unittestEnabled": false,
     "python.testing.pytestEnabled": true
+  },
+  "launch": {
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Python Debugger: FastAPI",
+        "type": "debugpy",
+        "request": "launch",
+        "module": "fastapi",
+        "args": ["dev", "src/app/main.py"],
+        "jinja": true
+      }
+    ],
+    "compounds": []
   }
 }

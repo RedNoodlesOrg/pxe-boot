@@ -1,6 +1,6 @@
 [project]
 name = "pxe-boot"
-version = "0.1.0"
+dynamic = ["version"]
 description = "PXE Ignition Service (FastAPI) — profiles, hosts, boot endpoints"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -9,7 +9,7 @@ dependencies = [
 "fastapi-cli",
 "pydantic",
 "pydantic_settings",
-"SQLAlchemy",
+"sqlalchemy",
 "aiosqlite",
 "httpx",
 "python-multipart"
