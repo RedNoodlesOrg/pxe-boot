@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 import pytest_asyncio
-from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
 
 @pytest.fixture(scope="session")
@@ -35,9 +35,7 @@ def _bind_settings(temp_env):
     cfg.settings.ARTIFACTS = temp_env["artifacts"]
     cfg.settings.DB_URL = f"sqlite+aiosqlite:///{temp_env['db']}"
 
-    dbmod.engine = create_async_engine(
-        cfg.settings.DB_URL, echo=False, future=True
-    )
+    dbmod.engine = create_async_engine(cfg.settings.DB_URL, echo=False, future=True)
     dbmod.SessionLocal = async_sessionmaker(
         dbmod.engine, class_=AsyncSession, expire_on_commit=False
     )

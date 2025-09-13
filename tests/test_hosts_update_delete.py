@@ -28,15 +28,17 @@ async def test_update_and_delete_host_flow(app_instance):
         hid = host["id"]
 
         # Update hostname and change profile to p2 (success)
-        r = client.put(f"/host/{hid}", json={"hostname": "node01-renamed", "profile_id": p2["id"]})
+        r = client.put(
+            f"/host/{hid}", json={"hostname": "node01-renamed", "profile_id": p2["id"]}
+        )
         assert r.status_code == 200, r.text
         updated = r.json()
-        assert updated["hostname"] == "node01-renamed"
-        assert updated["profile_id"] == p2["id"]
+        assert updated["hostname"] == "node01-renamed", r.text
+        assert updated["profile_id"] == p2["id"], r.text
 
         # Attempt to update with a non-existent profile -> 404
         r = client.put(f"/host/{hid}", json={"profile_id": 999999})
-        assert r.status_code == 404
+        assert r.status_code == 404, r.text
 
         # Delete the host -> 204
         r = client.delete(f"/host/{hid}")
@@ -44,9 +46,8 @@ async def test_update_and_delete_host_flow(app_instance):
 
         # Ensure host no longer retrievable -> 404
         r = client.get(f"/host/{hid}")
-        assert r.status_code == 404
+        assert r.status_code == 404, r.text
 
         # Deleting again should also yield 404
         r = client.delete(f"/host/{hid}")
-        assert r.status_code == 404
-
+        assert r.status_code == 404, r.text

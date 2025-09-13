@@ -1,4 +1,5 @@
 import time
+
 import pytest
 from fastapi.testclient import TestClient
 
@@ -23,7 +24,7 @@ async def test_profile_create_upload_download(app_instance):
 
         r = client.post("/profile", json={"name": "b+se"})
         assert r.status_code == 422, r.text
-        
+
         r = client.get(f"/profile/{pid}/ignition")
         if have_butane():
             assert r.status_code == 200, r.text
@@ -44,7 +45,7 @@ async def test_profile_rename_and_rerender(app_instance):
         if have_butane():
             assert r.status_code == 200, r.text
             first_json = r.text
-        assert first_json is not None
+        assert first_json is not None, r.text
 
         files = {
             "file": (
@@ -59,14 +60,14 @@ async def test_profile_rename_and_rerender(app_instance):
         r = client.get(f"/profile/{pid}/ignition")
         assert r.status_code == 200, r.text
         second_json = r.text
-        assert second_json != first_json
+        assert second_json != first_json, r.text
 
         # Rename
         r = client.put(f"/profile/{pid}", json={"new_name": "alpha-renamed"})
         assert r.status_code == 200, r.text
         info = r.json()
-        assert info["name"] == "alpha-renamed"
-        assert info["bu_path"].endswith(f"{pid}+alpha-renamed.bu")
+        assert info["name"] == "alpha-renamed", r.text
+        assert info["bu_path"].endswith(f"{pid}+alpha-renamed.bu"), r.text
 
         # Delete
         r = client.delete(f"/profile/{pid}")
