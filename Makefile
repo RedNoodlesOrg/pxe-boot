@@ -2,7 +2,7 @@
 REGISTRY ?= registry.rednet.lan
 IMAGE    ?= $(REGISTRY)/pxe-api
 VERSION  ?= 1.0.0
-TAGS     ?= latest
+TAGS     ?= dev
 FORMAT   ?= docker
 DOCKERFILE ?= Containerfile
 CONTEXT    ?= src
