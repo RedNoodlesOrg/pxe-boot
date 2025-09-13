@@ -20,6 +20,7 @@ dev = [
   "pytest",
   "black",
   "pytest_asyncio",
+  "pytest_cov",
   "pip-tools"
 ]
 
