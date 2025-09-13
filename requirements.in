@@ -3,3 +3,4 @@ fastapi-cli
 pydantic
 SQLAlchemy
 aiosqlite
+httpx
