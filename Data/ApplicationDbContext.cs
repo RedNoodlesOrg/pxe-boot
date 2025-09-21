@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 
-using pxe_boot_api_core.Data.Models;
+using PXE_Boot_Api_Core.Data.Models;
 
-namespace pxe_boot_api_core.Data;
+namespace PXE_Boot_Api_Core.Data;
 
 public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options)
 {

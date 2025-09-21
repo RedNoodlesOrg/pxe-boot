@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 
-using pxe_boot_api_core.Data.Dto;
-using pxe_boot_api_core.Data.Models;
-using pxe_boot_api_core.Data.Results;
+using PXE_Boot_Api_Core.Data.Dto;
+using PXE_Boot_Api_Core.Data.Models;
+using PXE_Boot_Api_Core.Data.Results;
 
-namespace pxe_boot_api_core.Data.Repositories;
+namespace PXE_Boot_Api_Core.Data.Repositories;
 
 public class HostRepository(ApplicationDbContext context) : IRepositoryCrudBase<PxeHostDto>
 {

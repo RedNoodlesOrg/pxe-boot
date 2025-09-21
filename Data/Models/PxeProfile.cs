@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace pxe_boot_api_core.Data.Models;
+namespace PXE_Boot_Api_Core.Data.Models;
 
 [Table("profiles")]
 public class PxeProfile

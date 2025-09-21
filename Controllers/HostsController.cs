@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 
-using pxe_boot_api_core.Data.Dto;
-using pxe_boot_api_core.Services;
+using PXE_Boot_Api_Core.Data.Dto;
+using PXE_Boot_Api_Core.Services;
 
-namespace pxe_boot_api_core.Controllers;
+namespace PXE_Boot_Api_Core.Controllers;
 
 [ApiController]
 [Route("hosts")]

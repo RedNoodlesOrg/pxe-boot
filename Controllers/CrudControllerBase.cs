@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 
-using pxe_boot_api_core.Data.Results;
-using pxe_boot_api_core.Services;
+using PXE_Boot_Api_Core.Data.Results;
+using PXE_Boot_Api_Core.Services;
 
-namespace pxe_boot_api_core.Controllers;
+using IResult = PXE_Boot_Api_Core.Data.Results.IResult;
+
+namespace PXE_Boot_Api_Core.Controllers;
 
 [ApiController]
 public class CrudControllerBase<T>(IServicesCrudBase<T> service) : ControllerBase
@@ -16,24 +18,20 @@ public class CrudControllerBase<T>(IServicesCrudBase<T> service) : ControllerBas
     public async Task<ActionResult<T>> GetOne(long id) => HandleResult(await _service.GetOne(id));
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateOne([FromQuery]long id, [FromBody]T entry) => HandleResult(await _service.UpdateOne(id, entry));
+    public async Task<IActionResult> UpdateOne([FromQuery] long id, [FromBody] T entry) => HandleResult(await _service.UpdateOne(id, entry));
 
     [HttpPut]
-    public async Task<IActionResult> UpdateMany([FromQuery]long[] ids, [FromBody]T entry) => HandleResult(await _service.UpdateMany(ids, entry));
+    public async Task<IActionResult> UpdateMany([FromQuery] long[] ids, [FromBody] T entry) => HandleResult(await _service.UpdateMany(ids, entry));
 
     [HttpPost]
-    public async Task<ActionResult<T>> Create([FromBody]T entry) => HandleResult(await _service.Create(entry));
+    public async Task<ActionResult<T>> Create([FromBody] T entry) => HandleResult(await _service.Create(entry));
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteOne(long id) => HandleResult(await _service.DeleteOne(id));
 
     [HttpDelete]
-    public async Task<IActionResult> DeleteMany([FromQuery]long[] ids) => HandleResult(await _service.DeleteMany(ids));
+    public async Task<IActionResult> DeleteMany([FromQuery] long[] ids) => HandleResult(await _service.DeleteMany(ids));
 
-    /// <summary>
-    /// A generic helper method to handle the conversion from any IResult object to an IActionResult.
-    /// This centralizes the logic for mapping ResultStatus to HTTP status codes.
-    /// </summary>
     private ActionResult HandleResult(IResult result)
     {
         if (result.Status == ResultStatus.Success && result.Value is not null)

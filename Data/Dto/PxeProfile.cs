@@ -1,4 +1,4 @@
-namespace pxe_boot_api_core.Data.Dto;
+namespace PXE_Boot_Api_Core.Data.Dto;
 
 public class PxeProfileDto
 {

@@ -1,5 +1,4 @@
-using pxe_boot_api_core.Data.Results;
-
+namespace PXE_Boot_Api_Core.Data.Results;
 public interface IResult
 {
     ResultStatus Status { get; }

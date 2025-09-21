@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 using Microsoft.EntityFrameworkCore;
 
-namespace pxe_boot_api_core.Data.Models;
+namespace PXE_Boot_Api_Core.Data.Models;
 
 [Table("hosts")]
 [Index(nameof(Mac), IsUnique = true)]

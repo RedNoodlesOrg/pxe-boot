@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 
-using pxe_boot_api_core.Data;
-using pxe_boot_api_core.Data.Dto;
-using pxe_boot_api_core.Data.Repositories;
-using pxe_boot_api_core.Services;
+using PXE_Boot_Api_Core.Data;
+using PXE_Boot_Api_Core.Data.Dto;
+using PXE_Boot_Api_Core.Data.Repositories;
+using PXE_Boot_Api_Core.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(opt => opt.UseInMemoryDatabase("HostsContext"));

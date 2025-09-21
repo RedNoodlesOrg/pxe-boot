@@ -1,8 +1,8 @@
-using pxe_boot_api_core.Data.Dto;
-using pxe_boot_api_core.Data.Repositories;
-using pxe_boot_api_core.Data.Results;
+using PXE_Boot_Api_Core.Data.Dto;
+using PXE_Boot_Api_Core.Data.Repositories;
+using PXE_Boot_Api_Core.Data.Results;
 
-namespace pxe_boot_api_core.Services;
+namespace PXE_Boot_Api_Core.Services;
 
 public class HostService(IRepositoryCrudBase<PxeHostDto> repo) : IServicesCrudBase<PxeHostDto>
 {

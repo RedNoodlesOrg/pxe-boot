@@ -1,4 +1,4 @@
-namespace pxe_boot_api_core.Data.Results;
+namespace PXE_Boot_Api_Core.Data.Results;
 
 public class Result<T> : IResult
 {
@@ -20,7 +20,7 @@ public class Result<T> : IResult
 
     // Factory method for a failed result
     public static Result<T> FailureResult(string message, ResultStatus status = ResultStatus.Failure) => new(status, default, message);
-    
+
     // New With method
     public static Result<T> With(bool condition, T? value, string failureMessage, ResultStatus status = ResultStatus.Failure) =>
         condition && value is not null ? SuccessResult(value) : FailureResult(failureMessage, status);
@@ -43,7 +43,6 @@ public class Result : IResult
 
     public static Result FailureResult(string message, ResultStatus status = ResultStatus.Failure) => new(status, message);
 
-    // New With method
     public static Result With(bool condition, string failureMessage, ResultStatus status = ResultStatus.Failure) =>
         condition ? SuccessResult() : FailureResult(failureMessage, status);
 
