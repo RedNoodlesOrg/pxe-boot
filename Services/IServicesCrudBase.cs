@@ -1,15 +1,14 @@
 using pxe_boot_api_core.Data.Results;
 
-namespace pxe_boot_api_core.Data.Repositories;
+namespace pxe_boot_api_core.Services;
 
-public interface IRepositoryCrudBase<T>
+public interface IServicesCrudBase<T>
 {
     Task<Result<IEnumerable<T>>> List();
     Task<Result<T>> GetOne(long id);
-    Task<Result<IEnumerable<T>>> GetMany(long[] ids);
     Task<Result<T>> Create(T entity);
     Task<Result> UpdateOne(long id, T entity);
-    Task<Result> DeleteOne(long id);
     Task<Result> UpdateMany(long[] ids, T entity);
+    Task<Result> DeleteOne(long id);
     Task<Result> DeleteMany(long[] ids);
 }
